@@ -46,3 +46,18 @@ export const CustomCardWrapperItem = styled.li`
   background-color: ${(props) => (props.toggle ? "#585858" : "#fff")};
   cursor: pointer;
 `;
+
+export const CustomFormWrapper = styled.div`
+  display: block;
+  margin-top: 15px;
+`;
+export const FormWrapperRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-right: 5px;
+
+  & div {
+    margin-right: 20px;
+  }
+`;

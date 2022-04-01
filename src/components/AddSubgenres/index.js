@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { LeftOutlined } from "@ant-design/icons";
 import { Formik } from "formik";
 import { Button } from "antd";
-import { Checkbox, FormItem, Input, Form } from "formik-antd";
+import { Checkbox, Input, Form } from "formik-antd";
 import TradeCoreContext from "../../Context";
 import "./style.css";
-import { GenresButtonsWrapper } from "../../globalStyles";
+import { CustomFormWrapper, GenresButtonsWrapper } from "../../globalStyles";
 
 export default function AddSubgenreComponent() {
   const { prev, next, newBook, setNewBook } = useContext(TradeCoreContext);
@@ -14,29 +14,30 @@ export default function AddSubgenreComponent() {
     <Formik
       initialValues={newBook}
       onSubmit={(values) => {
-        setNewBook(values);
+        if (values.isDescriptionRequired) {
+          setNewBook(values);
+        } else {
+          setNewBook({
+            subgenreName: values.subgenreName,
+            isDescriptionRequired: false,
+          });
+        }
         next();
-      }}
-      validate={(values) => {
-        const errors = {};
-        if (!values.subgenreName)
-          errors.subgenreName = "Subgenre Name is required";
-        return errors;
       }}
     >
       {({ handleSubmit }) => {
         return (
           <React.Fragment>
             <Form>
-              <FormItem name="subgenreName">
+              <CustomFormWrapper>
                 <label>Subgenre Name </label>
                 <Input name={"subgenreName"} placeholder={"Subgenre Name"} />
-              </FormItem>
-              <FormItem name="checkbox">
+              </CustomFormWrapper>
+              <CustomFormWrapper>
                 <Checkbox name={"isDescriptionRequired"}>
                   Description is required for this subgenre
                 </Checkbox>
-              </FormItem>
+              </CustomFormWrapper>
             </Form>
             <GenresButtonsWrapper>
               <Button type={"default"} onClick={prev} icon={<LeftOutlined />}>

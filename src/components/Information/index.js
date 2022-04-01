@@ -2,21 +2,19 @@ import React, { useContext } from "react";
 import { LeftOutlined } from "@ant-design/icons";
 import { Formik } from "formik";
 import { Button, Space } from "antd";
-import {
-  Form,
-  FormItem,
-  Select,
-  Input,
-  DatePicker,
-  InputNumber,
-} from "formik-antd";
+import { Form, Select, Input, DatePicker, InputNumber } from "formik-antd";
 import TradeCoreContext from "../../Context";
 import "./style.css";
-import { GenresButtonsWrapper } from "../../globalStyles";
+import {
+  CustomFormWrapper,
+  FormWrapperRow,
+  GenresButtonsWrapper,
+} from "../../globalStyles";
 
 export default function InformationComponent() {
   const { prev, newBook, setNewBook, setSuccess } =
     useContext(TradeCoreContext);
+  const isDescriptionRequired = newBook.isDescriptionRequired;
 
   return (
     <Formik
@@ -24,29 +22,28 @@ export default function InformationComponent() {
       onSubmit={(values) => {
         setNewBook(values);
         setSuccess(true);
-        console.log(values);
+        console.log("fake-book-data", values);
       }}
       validate={(values) => {
         const errors = {};
         if (!values.bookTitle) errors.bookTitle = "Book title is required";
-        if (!values.author) errors.author = "author is required";
-        if (!values.isbn) errors.isbn = "ISBN is required";
-        if (!values.publisher) errors.publisher = "publisher is required";
-        if (!values.date) errors.date = "date is required";
-        if (!values.edition) errors.edition = "Edition is required";
-        if (!values.decription) errors.decription = "Decription is required";
+        if (isDescriptionRequired) {
+          if (!values.decription) errors.decription = "Decription is required";
+        }
+
         return errors;
       }}
     >
-      {({ handleSubmit }) => {
+      {({ handleSubmit, errors }) => {
         return (
           <React.Fragment>
             <Form>
-              <FormItem name="bookTitle">
+              <CustomFormWrapper>
                 <label>Book Title </label>
                 <Input name={"bookTitle"} placeholder={"Book Title"} />
-              </FormItem>
-              <FormItem name="author">
+                <p className={"error__feedback"}>{errors?.bookTitle}</p>
+              </CustomFormWrapper>
+              <CustomFormWrapper>
                 <label>Author </label>
                 <Select
                   name="author"
@@ -64,12 +61,12 @@ export default function InformationComponent() {
                     Eric Freeman
                   </Select.Option>
                 </Select>
-              </FormItem>
-              <FormItem name="isbn">
+              </CustomFormWrapper>
+              <CustomFormWrapper>
                 <label>ISBN </label>
                 <Input name={"isbn"} placeholder={"ISBN"} />
-              </FormItem>
-              <FormItem name="publisher">
+              </CustomFormWrapper>
+              <CustomFormWrapper>
                 <label>Publisher </label>
                 <Select
                   name="publisher"
@@ -89,22 +86,22 @@ export default function InformationComponent() {
                   <Select.Option value="Pearson">Pearson</Select.Option>
                   <Select.Option value="Packt">Packt</Select.Option>
                 </Select>
-              </FormItem>
-              <FormItem name="date">
+              </CustomFormWrapper>
+              <CustomFormWrapper>
                 <label>Date Publisher </label>
                 <Space direction="vertical">
                   <DatePicker name="date" />
                 </Space>
-              </FormItem>
-              <FormItem name="page">
+              </CustomFormWrapper>
+              <CustomFormWrapper>
                 <label>Number of pages</label>
                 <InputNumber
                   name={"page"}
                   style={{ width: "19%" }}
                   placeholder={"Number of pages"}
                 />
-              </FormItem>
-              <FormItem name="format">
+              </CustomFormWrapper>
+              <CustomFormWrapper>
                 <label>Format </label>
                 <Select
                   name="format"
@@ -115,18 +112,18 @@ export default function InformationComponent() {
                   <Select.Option value="audiobook">Audiobook</Select.Option>
                   <Select.Option value="ebook">Ebook</Select.Option>
                 </Select>
-              </FormItem>
+              </CustomFormWrapper>
 
-              <div className="row_form">
-                <FormItem name="edition">
+              <FormWrapperRow>
+                <CustomFormWrapper>
                   <label>Edition</label>
                   <Input
                     name={"edition"}
                     placeholder={"Edition"}
                     style={{ width: "100%" }}
                   />
-                </FormItem>
-                <FormItem name="language">
+                </CustomFormWrapper>
+                <CustomFormWrapper>
                   <label>Edition language </label>
                   <Select
                     name="language"
@@ -141,16 +138,17 @@ export default function InformationComponent() {
 
                     <Select.Option value="french">French</Select.Option>
                   </Select>
-                </FormItem>
-              </div>
+                </CustomFormWrapper>
+              </FormWrapperRow>
 
-              <FormItem name="decription">
+              <CustomFormWrapper>
                 <label>Description </label>
                 <Input.TextArea
                   name={"decription"}
                   placeholder={"Type the description..."}
                 />
-              </FormItem>
+                <p className={"error__feedback"}>{errors?.decription}</p>
+              </CustomFormWrapper>
             </Form>
             <GenresButtonsWrapper>
               <Button type={"default"} onClick={prev} icon={<LeftOutlined />}>
