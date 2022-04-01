@@ -1,0 +1,15 @@
+.form__item {
+  margin: 4em 0px 2em 0px;
+}
+label,
+input {
+  display: block;
+  width: 100%;
+}
+
+.input__error input {
+  border-color: red;
+}
+.error__feedback {
+  color: red;
+}

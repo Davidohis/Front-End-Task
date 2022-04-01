@@ -1,0 +1,24 @@
+.form__item {
+  margin: 1.5em 0px 0.5em 0px;
+}
+label,
+input {
+  display: block;
+  width: 100%;
+}
+
+.input__error input {
+  border-color: red;
+}
+.error__feedback {
+  color: red;
+}
+.row_form {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-right: 5px;
+}
+.row_form .ant-row {
+  margin-right: 20px;
+}
